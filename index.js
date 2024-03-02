@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import inquirer from 'inquirer';
 
 let firstValue;
@@ -12,29 +14,15 @@ async function askValue(variableName){
         default(){
             return 0;
         },
-        /* Legacy way: with this.async */
-        validate: async function (input) {
-            // Declare function as asynchronous, and save the done callback
-            const done = this.async();
-
-            // Do async stuff
-            if (typeof await getNumber(input) !== 'number') {
-                // Pass the return value in the done callback
-                done('You need to provide a number');
+        validate: function (input) {
+            const value = parseFloat(input);
+            if(!isNaN(value)){
+                return true;
             } else {
-                // Pass the return value in the done callback
-                done(null, true);
+                return 'You need to provide a number';
             }
         }
     });
-    async function getNumber(value){
-        value = parseFloat(value);
-        if(!isNaN(value)){
-            return value;
-        } else {
-            return null;
-        }
-    }
 
     switch(variableName){
         case 'first_value':
@@ -42,6 +30,15 @@ async function askValue(variableName){
         case 'second_value':
             secondValue = await getNumber(answer.second_value);
         default:;
+    }
+}
+
+async function getNumber(value){
+    value = parseFloat(value);
+    if(!isNaN(value)){
+        return value;
+    } else {
+        return null;
     }
 }
 
@@ -55,9 +52,26 @@ async function askOperator(){
     selectedOperator = answer.operator;
 }
 
-await askValue('first_value');
-await askOperator();
-await askValue('second_value');
-let result = eval(`${firstValue} ${selectedOperator} ${secondValue}`);
+async function runCalculator(){
+    await askValue('first_value');
+    await askOperator();
+    await askValue('second_value');
+    let result = eval(`${firstValue} ${selectedOperator} ${secondValue}`);
 
-console.log(`${firstValue} ${selectedOperator} ${secondValue} = ${result}`);
+    console.log(`${firstValue} ${selectedOperator} ${secondValue} = ${result}`);
+
+    let answer = await inquirer.prompt({
+        name: 'is_continue',
+        type: 'list',
+        message: 'Do you want to continue?',
+        choices: ['Yes', 'No']
+    });
+    
+    if(answer.is_continue == 'Yes'){
+        await runCalculator();
+    }else{
+        process.exit(1);
+    }
+}
+
+await runCalculator();
