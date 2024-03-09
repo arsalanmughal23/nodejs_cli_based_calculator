@@ -1,46 +1,55 @@
 #!/usr/bin/env node
+
 import inquirer from 'inquirer';
-const ALL_OPERATORS = ['+', '-', '*', '/'];
-const IS_CONTINUE = ['Yes', 'No'];
-let firstValue;
-let selectedOperator;
-let secondValue;
-async function askValue(variableName) {
+
+type TYPE_VARIABLE_NAMES = 'first_value' | 'second_value';
+type TYPE_OPERATORS = '+'|'-'|'*'|'/';
+type TYPE_IS_CONTINUE = 'Yes'|'No';
+
+const ALL_OPERATORS:TYPE_OPERATORS[] = ['+','-','*','/'];
+const IS_CONTINUE:TYPE_IS_CONTINUE[] = ['Yes','No'];
+
+let firstValue:number | null;
+let selectedOperator:TYPE_OPERATORS;
+let secondValue:number | null;
+
+async function askValue(variableName:TYPE_VARIABLE_NAMES){
     const answer = await inquirer.prompt({
         name: variableName,
         type: 'input',
         message: `Enter ${variableName.replace('_', ' ')}: `,
-        default() {
+        default(){
             return 0;
         },
-        validate: function (input) {
+        validate: function (input:any) {
             const value = parseFloat(input);
-            if (!isNaN(value)) {
+            if(!isNaN(value)){
                 return true;
-            }
-            else {
+            } else {
                 return 'You need to provide a number';
             }
         }
     });
-    switch (variableName) {
+
+    switch(variableName){
         case 'first_value':
             firstValue = await getNumber(answer.first_value);
         case 'second_value':
             secondValue = await getNumber(answer.second_value);
-        default: ;
+        default:;
     }
 }
-async function getNumber(value) {
+
+async function getNumber(value:any){
     value = parseFloat(value);
-    if (!isNaN(value)) {
+    if(!isNaN(value)){
         return value;
-    }
-    else {
+    } else {
         return null;
     }
 }
-async function askOperator() {
+
+async function askOperator(){
     const answer = await inquirer.prompt({
         name: 'operator',
         type: 'list',
@@ -49,23 +58,27 @@ async function askOperator() {
     });
     selectedOperator = answer.operator;
 }
-async function runCalculator() {
+
+async function runCalculator(){
     await askValue('first_value');
     await askOperator();
     await askValue('second_value');
     let result = eval(`${firstValue} ${selectedOperator} ${secondValue}`);
+
     console.log(`${firstValue} ${selectedOperator} ${secondValue} = ${result}`);
+
     let answer = await inquirer.prompt({
         name: 'is_continue',
         type: 'list',
         message: 'Do you want to continue?',
         choices: IS_CONTINUE
     });
-    if (answer.is_continue == 'Yes') {
+    
+    if(answer.is_continue == 'Yes'){
         await runCalculator();
-    }
-    else {
+    }else{
         process.exit(1);
     }
 }
+
 await runCalculator();

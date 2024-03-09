@@ -4,7 +4,7 @@
   "description": "Simple Command Line Calculator",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "tsc && node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": "./index.js",
@@ -14,5 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "inquirer": "^9.2.15"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7"
   }
 }
