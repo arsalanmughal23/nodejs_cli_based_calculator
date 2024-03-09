@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import inquirer from 'inquirer';
-const ALL_OPERATORS = ['+', '-', '*', '/'];
+const ALL_OPERATORS = ['+', '-', '*', '/', '**', '%'];
 const IS_CONTINUE = ['Yes', 'No'];
 let firstValue;
 let selectedOperator;

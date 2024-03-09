@@ -3,10 +3,10 @@
 import inquirer from 'inquirer';
 
 type TYPE_VARIABLE_NAMES = 'first_value' | 'second_value';
-type TYPE_OPERATORS = '+'|'-'|'*'|'/';
+type TYPE_OPERATORS = '+'|'-'|'*'|'/'|'**'|'%';
 type TYPE_IS_CONTINUE = 'Yes'|'No';
 
-const ALL_OPERATORS:TYPE_OPERATORS[] = ['+','-','*','/'];
+const ALL_OPERATORS:TYPE_OPERATORS[] = ['+','-','*','/','**','%'];
 const IS_CONTINUE:TYPE_IS_CONTINUE[] = ['Yes','No'];
 
 let firstValue:number | null;
