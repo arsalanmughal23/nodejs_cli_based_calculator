@@ -1,6 +1,6 @@
 {
   "name": "nodejs_cli_based_calculator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple Command Line Calculator",
   "main": "index.js",
   "scripts": {
