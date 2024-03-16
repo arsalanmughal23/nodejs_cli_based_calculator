@@ -10,11 +10,8 @@
   "bin": "./index.js",
   "type": "module",
   "keywords": [],
-  "author": {
-    "name": "Arsalan Mughal",
-    "email": "arsalanmughal23@gmail.com"
-  },
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "inquirer": "^9.2.15"
   },
